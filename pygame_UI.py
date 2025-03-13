@@ -6,7 +6,6 @@ import sys
 import copy
 import math
 
-
 pg.init()
 # ---------------------------------------- class
 class dartboard:
@@ -74,7 +73,7 @@ is_running = True
 first_move_blue = True
 first_move_red = True
 game_end = False
-turn = 1
+
 fps = pg.time.Clock()
 
 font = pg.font.SysFont('Arial',18)
@@ -94,12 +93,12 @@ while is_running:
     player_1_text = font.render('player 1 :',True,'black')
     player_1_score_text = font.render(f'score : {player_1.score}',True,'black')
     player_1_bullet_text = font.render(f'bullet : {player_1.bullet}',True,'black')
-    player_1_time_text = font.render(f'time : {float(player_1.time/60)}',True,'black')
+    player_1_time_text = font.render(f'time : {round(float(player_1.time/60),2)}',True,'black')
     
     player_2_text = font.render('player 2 :',True,'black')
     player_2_score_text = font.render(f'score : {player_2.score}',True,'black')
     player_2_bullet_text = font.render(f'bullet : {player_2.bullet}',True,'black')
-    player_2_time_text = font.render(f'time : {float(player_2.time/60)}',True,'black')
+    player_2_time_text = font.render(f'time : {round(float(player_2.time/60),2)}',True,'black')
     
     screen.blit(player_1_text,(1010,20))
     screen.blit(player_1_score_text,(1010,60))
@@ -138,19 +137,19 @@ while is_running:
         pg.draw.circle(screen, 'red', (coordinate[0], coordinate[1]), 5)
     # ----------
 
-    if turn == 1:
-        if game_end == False:
-            if int(player_1.time) > 0:
-                player_1.time -= 1
-            else:
-                player_1.time = 0
+    
+    if game_end == False:
+        if int(player_1.time) > 0:
+            player_1.time -= 1
+        else:
+            player_1.time = 0
 
-    elif turn == 2:
-        if game_end == False:
-            if int(player_2.time) > 0:
-                player_2.time -= 1
-            else:
-                player_2.time = 0
+    
+    if game_end == False:
+        if int(player_2.time) > 0:
+            player_2.time -= 1
+        else:
+            player_2.time = 0
 
 
     for item in pg.event.get():
@@ -159,9 +158,10 @@ while is_running:
             is_running = False
             break  
 
-        if turn == 1:
+        
 
-            if item.type == KEYDOWN:
+        if item.type == KEYDOWN:
+            if player_1.bullet > 0 and player_1.time > 0 :
 
                 if first_move_blue == True:
                     if item.key == K_SPACE:
@@ -189,7 +189,7 @@ while is_running:
                             if lst_bullet_blue_temp[0][0] > 10:
                                 lst_bullet_blue_temp[0][0] -= 10
 
-                        if item.key == K_SPACE:
+                        if item.key ==  K_RSHIFT:
                             lst_bullet_blue.append(copy.deepcopy(lst_bullet_blue_temp[0]))
                             if player_1.bullet > 0:
                                 player_1.bullet -= 1
@@ -223,15 +223,15 @@ while is_running:
                                 player_1.bullet += 5
                                 lst_notif.append('player 1 bullet added')
 
-                            # ----------
-                            if int(player_2.time) != 0:
-                                turn = 2
+                        # ----------
 
 
 
-        elif turn == 2:
 
-            if item.type == KEYDOWN:
+        
+
+        if item.type == KEYDOWN:
+            if player_2.bullet > 0 and player_2.time > 0:
 
                 if first_move_red == True:
                     if item.key == K_SPACE:
@@ -243,23 +243,23 @@ while is_running:
                     
                     if game_end == False:
                 
-                        if item.key == K_UP:
+                        if item.key == K_w:
                             if lst_bullet_red_temp[0][1] > 10:
                                 lst_bullet_red_temp[0][1] -= 10
                             
-                        elif item.key == K_RIGHT:
+                        elif item.key == K_d:
                             if lst_bullet_red_temp[0][0] < 990:
                                 lst_bullet_red_temp[0][0] += 10
 
-                        elif item.key == K_DOWN:
+                        elif item.key == K_s:
                             if lst_bullet_red_temp[0][1] < 590:
                                 lst_bullet_red_temp[0][1] += 10
 
-                        elif item.key == K_LEFT:
+                        elif item.key == K_a:
                             if lst_bullet_red_temp[0][0] > 10:
                                 lst_bullet_red_temp[0][0] -= 10
 
-                        if item.key == K_SPACE:
+                        if item.key == K_LSHIFT :
                             lst_bullet_red.append(copy.deepcopy(lst_bullet_red_temp[0]))
                             if player_2.bullet > 0:
                                 player_2.bullet -= 1
@@ -292,9 +292,8 @@ while is_running:
                                 changing(bulletboard_1)
                                 player_2.bullet += 5
                                 lst_notif.append('player 2 bullet added')
-                            # ----------
-                            if int(player_1.time) != 0:
-                                turn = 1
+                        # ----------
+
 
     player_1_win = font2.render('Player 1 WIN',True,'yellow')
     player_2_win = font2.render('Player 2 WIN',True,'yellow')
