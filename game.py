@@ -74,7 +74,7 @@ def run_game(player1_username, player2_username):
     fps = pg.time.Clock()
     font = pg.font.SysFont('Arial', 18)
     font2 = pg.font.SysFont('Arial', 80)
-    font3 = pg.font.SysFont('Arial', 13)
+    font3 = pg.font.SysFont('Arial', 16)
     lst_notif = ['']
 
     dart_icon = pg.image.load('dart.png')
