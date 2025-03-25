@@ -10,7 +10,7 @@ def load_users(json_file):
 def create_leaderboard(users):
     sorted_users = sorted(users, key=lambda x: x.get('score', 0), reverse=True)
     return sorted_users
-    # return sorted_users[:3]  # سه نفر برتر in baraye bp bud vali alan mishe hame afrad ro dasht
+
 
 def display_leaderboard(leaderboard):
     console = Console()

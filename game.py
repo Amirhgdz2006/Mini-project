@@ -7,9 +7,7 @@ import hashpassword
 import subprocess
 import time
 
-
 pg.init()
-
 
 
 class dartboard:
@@ -18,7 +16,6 @@ class dartboard:
         self.y = random.randint(25, 575)
         self.r = 25
         
-
 class timeboard:
     def __init__(self):
         self.x = random.randint(25, 975)
@@ -37,6 +34,7 @@ class player:
         self.score = 0
         self.bullet = 10
         self.time = 7200
+
 
 def changing(class_name, lst_bullet_blue_temp, lst_bullet_red_temp):
     i = random.randint(25, 975)
@@ -65,8 +63,11 @@ def run_game(player1_username, player2_username):
 
     lst_bullet_blue = []
     lst_bullet_blue_temp = []
+    lst_bullet_blue_shot = []
+
     lst_bullet_red = []
     lst_bullet_red_temp = []
+    lst_bullet_red_shot = []
 
     is_running = True
     first_move_blue = True
@@ -172,18 +173,37 @@ def run_game(player1_username, player2_username):
                         lst_bullet_blue.append(copy.deepcopy(lst_bullet_blue_temp[0]))
                         player_1.bullet -= 1 if player_1.bullet > 0 else 0
 
+
                         if math.sqrt((lst_bullet_blue_temp[0][0] - dartboard_1.x)**2 + (lst_bullet_blue_temp[0][1] - dartboard_1.y)**2) <= dartboard_1.r:
                             changing(dartboard_1, lst_bullet_blue_temp, lst_bullet_red_temp)
                             player_1.score += 1
+
+                            # lst_bullet_blue_shot.append(lst_bullet_blue_temp[0])
+                            # print('1')
+                            # index = lst_bullet_blue.index(lst_bullet_blue_temp[0])
+                            # if len(lst_bullet_blue) >= 2:
+                            #     print([lst_bullet_blue[index-1],lst_bullet_blue[index]])
+                            #     print(lst_bullet_blue_shot)
+                            #     if [lst_bullet_blue[index-1],lst_bullet_blue[index]] == lst_bullet_blue_shot:
+                                    
+                            #         player_1.score += 2
+                            # if len(lst_bullet_blue_shot) == 2:
+                            #     print('3')
+                            #     lst_bullet_blue_shot = []
+
                             lst_notif.append(f'{player_1.username} hit the target')
                         elif math.sqrt((lst_bullet_blue_temp[0][0] - dartboard_2.x)**2 + (lst_bullet_blue_temp[0][1] - dartboard_2.y)**2) <= dartboard_2.r:
                             changing(dartboard_2, lst_bullet_blue_temp, lst_bullet_red_temp)
                             player_1.score += 1
+
+
                             lst_notif.append(f'{player_1.username} hit the target')
                         elif math.sqrt((lst_bullet_blue_temp[0][0] - dartboard_3.x)**2 + (lst_bullet_blue_temp[0][1] - dartboard_3.y)**2) <= dartboard_3.r:
                             changing(dartboard_3, lst_bullet_blue_temp, lst_bullet_red_temp)
                             player_1.score += 1
+
                             lst_notif.append(f'{player_1.username} hit the target')
+
                         elif math.sqrt((lst_bullet_blue_temp[0][0] - timeboard_1.x)**2 + (lst_bullet_blue_temp[0][1] - timeboard_1.y)**2) <= timeboard_1.r:
                             changing(timeboard_1, lst_bullet_blue_temp, lst_bullet_red_temp)
                             player_1.time += 1800
@@ -192,6 +212,7 @@ def run_game(player1_username, player2_username):
                             changing(bulletboard_1, lst_bullet_blue_temp, lst_bullet_red_temp)
                             player_1.bullet += 5
                             lst_notif.append(f'{player_1.username} bullet added')
+
 
             if item.type == KEYDOWN and player_2.bullet > 0 and player_2.time > 0:
                 if first_move_red and item.key == K_SPACE:
