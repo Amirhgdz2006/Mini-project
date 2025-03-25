@@ -122,6 +122,7 @@ def main():
         player1_username = player_login(screen, "Player 1")
         player2_username = player_login(screen, "Player 2")
         game.run_game(player1_username, player2_username)
+
     elif choice == "leaderboard":
         subprocess.run(["python", "leaderboard.py"])
     pygame.quit()
