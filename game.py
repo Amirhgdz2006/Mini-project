@@ -7,6 +7,7 @@ import hashpassword
 import subprocess
 import time
 
+
 pg.init()
 
 
@@ -46,6 +47,7 @@ def changing(class_name, lst_bullet_blue_temp, lst_bullet_red_temp):
         j = random.randint(25, 575)
     class_name.x = i
     class_name.y = j
+
 
 def run_game(player1_username, player2_username):
     screen = pg.display.set_mode([1140, 600])
@@ -239,20 +241,20 @@ def run_game(player1_username, player2_username):
 
 
             if player_1.score > player_2.score:
-                screen.blit(player_1_win, (300, 220))
+                screen.blit(player_1_win, (330, 220))
                 hashpassword.update_game_result(player_1.username, player_1.score, "win")
                 hashpassword.update_game_result(player_2.username, player_2.score, "lose")
                 
 
                 
             elif player_1.score < player_2.score:
-                screen.blit(player_2_win, (300, 220))
+                screen.blit(player_2_win, (330, 220))
                 hashpassword.update_game_result(player_1.username, player_1.score, "lose")
                 hashpassword.update_game_result(player_2.username, player_2.score, "win")
 
 
             else:
-                screen.blit(draw, (450, 220))
+                screen.blit(draw, (480, 220))
                 hashpassword.update_game_result(player_1.username, player_1.score, "draw")
                 hashpassword.update_game_result(player_2.username, player_2.score, "draw")
         
@@ -269,7 +271,12 @@ def run_game(player1_username, player2_username):
 
 
     pg.quit()
+    
 
 if __name__ == '__main__':
-    subprocess.run(["python", "login.py"])
-    run_game()
+    try:
+        subprocess.run(["python", "login.py"])
+        run_game()
+    except:
+        pass
+        
