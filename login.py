@@ -124,8 +124,7 @@ def main():
         game.run_game(player1_username, player2_username)
 
     elif choice == "leaderboard":
-        subprocess.run(["python", "leaderboard.py"])
-    pygame.quit()
+        pygame.quit()
     sys.exit()
 
 if __name__ == '__main__':

@@ -10,11 +10,13 @@ def load_users(json_file):
 def create_leaderboard(users):
     sorted_users = sorted(users, key=lambda x: x.get('score', 0), reverse=True)
     return sorted_users
+    # return sorted_users[:3]  # سه نفر برتر in baraye bp bud vali alan mishe hame afrad ro dasht
+
 def display_leaderboard(leaderboard):
     console = Console()
 
-    print('\n')
-    
+    onvan = Panel("LEADERBOARD", title=" ", border_style="bold blue", expand=True, padding=(1, 65), style="bold white")
+
     khode_leaderboard = Table(title="", title_justify="center")
     khode_leaderboard.add_column("RANK", justify="center", style="cyan", no_wrap=True)
     khode_leaderboard.add_column("USERNAME", justify="left", style="royal_blue1")
@@ -31,9 +33,9 @@ def display_leaderboard(leaderboard):
             str(user.get('losses', 0))
         )
     
+    console.print(onvan)
     console.print(khode_leaderboard)
-
-    print('\n')
+    
 def main():
     file_name = 'users.json'
     users = load_users(file_name)
