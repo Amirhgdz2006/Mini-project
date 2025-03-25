@@ -66,3 +66,66 @@ def menu_aval(screen):
             return "play"
         elif key == K_2:
             return "leaderboard"
+        
+def login_menu(screen):
+    screen.fill((50, 50, 50))
+    safe_siah(screen, "Press 1 for Sign Up", 0, -30)
+    safe_siah(screen, "Press 2 for Login", 0, 30)
+    pygame.display.update()
+    
+    while True:
+        key = get_key()
+        if key == K_1:
+            return "signup"
+        elif key == K_2:
+            return "login"
+
+def player_login(screen, player):
+    while True:
+        screen.fill((50, 50, 50))
+        safe_siah(screen, f"{player} Turn", 0, -90)
+        pygame.display.update()
+        
+        choice = login_menu(screen)
+        username = vorodiha(screen, "Username", 0, -30)
+        password = vorodiha(screen, "Password", 0, 30)
+        
+        if choice == "signup":
+            if hashpassword.add_user(username, password):
+                safe_siah(screen, f"{username} registered!", 0, 90)
+                pygame.display.update()
+                pygame.time.wait(2000)
+                return username
+            else:
+                safe_siah(screen, f"{username} already exists!", 0, 90)
+                pygame.display.update()
+                pygame.time.wait(2000)
+        elif choice == "login":
+            result = hashpassword.check_password(username, password)
+            if result == "not_found":
+                safe_siah(screen, f"{username} not found!", 0, 90)
+            elif result:
+                safe_siah(screen, f"{username} logged in!", 0, 90)
+                pygame.display.update()
+                pygame.time.wait(2000)
+                return username
+            else:
+                safe_siah(screen, "Wrong password!", 0, 90)
+            pygame.display.update()
+            pygame.time.wait(2000)
+
+def main():
+    screen = pygame.display.set_mode((400, 300), pygame.RESIZABLE)
+    choice = menu_aval(screen)
+    
+    if choice == "play":
+        player1_username = player_login(screen, "Player 1")
+        player2_username = player_login(screen, "Player 2")
+        pygame_UI.run_game(player1_username, player2_username)
+    elif choice == "leaderboard":
+        subprocess.run(["python", "leaderboard.py"])
+    pygame.quit()
+    sys.exit()
+
+if __name__ == '__main__':
+    main()
