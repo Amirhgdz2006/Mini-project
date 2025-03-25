@@ -1,7 +1,7 @@
 import pygame
 import hashpassword
 from pygame.locals import *
-import pygame_UI
+import game
 import subprocess
 import sys
 
@@ -66,7 +66,7 @@ def menu_aval(screen):
             return "play"
         elif key == K_2:
             return "leaderboard"
-        
+
 def login_menu(screen):
     screen.fill((50, 50, 50))
     safe_siah(screen, "Press 1 for Sign Up", 0, -30)
@@ -115,13 +115,13 @@ def player_login(screen, player):
             pygame.time.wait(2000)
 
 def main():
-    screen = pygame.display.set_mode((400, 300), pygame.RESIZABLE)
+    screen = pygame.display.set_mode((400, 300))
     choice = menu_aval(screen)
     
     if choice == "play":
         player1_username = player_login(screen, "Player 1")
         player2_username = player_login(screen, "Player 2")
-        pygame_UI.run_game(player1_username, player2_username)
+        game.run_game(player1_username, player2_username)
     elif choice == "leaderboard":
         subprocess.run(["python", "leaderboard.py"])
     pygame.quit()
