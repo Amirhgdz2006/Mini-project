@@ -11,7 +11,6 @@ def create_leaderboard(users):
     sorted_users = sorted(users, key=lambda x: x.get('score', 0), reverse=True)
     return sorted_users
 
-
 def display_leaderboard(leaderboard):
     console = Console()
 
