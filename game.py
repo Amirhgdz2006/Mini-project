@@ -152,14 +152,16 @@ def run_game(player1_username, player2_username):
         # ---------------
 
         if not game_end:
-            if player_1.time > 0:
-                player_1.time -= 1
-            else:
-                player_1.time = 0
-            if player_2.time > 0:
-                player_2.time -= 1
-            else:
-                player_2.time = 0
+            if player_1.bullet > 0:
+                if player_1.time > 0:
+                    player_1.time -= 1
+                else:
+                    player_1.time = 0
+            if player_2.bullet > 0:
+                if player_2.time > 0:
+                    player_2.time -= 1
+                else:
+                    player_2.time = 0
 
         # --------------- for closing the screen 
         for item in pg.event.get():
