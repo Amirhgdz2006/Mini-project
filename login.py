@@ -1,13 +1,14 @@
 import pygame
 import hashpassword
-from pygame.locals import *
+from pygame.locals import * #keydown , key_backspace , quite va ...
 import game
 import subprocess
 import sys
 
 pygame.init()
 
-def get_key():
+#in tabe kilid migire az karbar va hamono barmigrdone va agar karbar zarbdar ro bezane kolan miad biron az game
+def gerftan_key_khoroj():
     while True:
         event = pygame.event.wait()
         if event.type == KEYDOWN:
@@ -16,106 +17,110 @@ def get_key():
             pygame.quit()
             sys.exit()
 
-def safe_siah(screen, message, x=0, y=0):
-    fontobject = pygame.font.Font(None, 24)
-    text_surface = fontobject.render(message, True, (255, 255, 255))
-    text_rect = text_surface.get_rect(center=((screen.get_width() / 2) + x, (screen.get_height() / 2) + y))
-    pygame.draw.rect(screen, (0, 0, 0), text_rect.inflate(10, 10))
-    pygame.draw.rect(screen, (255, 255, 255), text_rect.inflate(12, 12), 1)
-    screen.blit(text_surface, text_rect)
+#matn safahat ro ba tamami joziiat amade mikne
+def matn_safe_siah(screen, message, x=0, y=0):
+    font_text = pygame.font.Font(None , 24)
+    range_text = font_text.render(message, True ,(255, 255, 255))
+    mostatil_text = range_text.get_rect(center=((screen.get_width() / 2) + x, (screen.get_height() / 2) + y))
+    pygame.draw.rect(screen, (0, 0, 0), mostatil_text.inflate(10, 10))
+    pygame.draw.rect(screen, (255, 255, 255), mostatil_text.inflate(12, 12), 1)
+    screen.blit(range_text, mostatil_text)
 
+#bozorg va kuchiki va darvaghe barresi kardn va ezafe kardn vorodi haye karbar
 def vorodiha(screen, question, x=0, y=0):
-    pygame.font.init()
-    current_string = []
+    pygame.font.init() #bug
+    matn_halehazer = []
     shift_pressed = False 
-    screen.fill((50, 50, 50))
-    safe_siah(screen, question + ": " + ''.join(current_string), x, y)
+    screen.fill((50, 50, 50)) #rang asli safe
+    matn_safe_siah(screen, question + ": " + ''.join(matn_halehazer), x, y)
     pygame.display.update()
     
     while True:
-        inkey = get_key()
+        vorodie = gerftan_key_khoroj()
         
-        if inkey == K_BACKSPACE:
-            current_string = current_string[:-1]
-        elif inkey == K_RETURN:
+        if vorodie == K_BACKSPACE:
+            matn_halehazer = matn_halehazer[:-1]
+        elif vorodie == K_RETURN:
             break
-        elif inkey in (K_LSHIFT, K_RSHIFT): 
-            shift_pressed = True
+        elif vorodie in (K_LSHIFT, K_RSHIFT , K_CAPSLOCK):
+            # shift_pressed = True
+            shift_pressed = not shift_pressed
             continue
-        elif shift_pressed and 97 <= inkey <= 122:  
-            current_string.append(chr(inkey - 32))  
-            shift_pressed = False
-        elif 32 <= inkey <= 126: 
-            current_string.append(chr(inkey))
-        
+        elif shift_pressed and 97 <= vorodie <= 122:  
+            matn_halehazer.append(chr(vorodie - 32)) 
+            # shift_pressed = False
+ 
+        elif 32 <= vorodie <= 126: 
+            matn_halehazer.append(chr(vorodie))
         screen.fill((50, 50, 50))
-        safe_siah(screen, question + ": " + ''.join(current_string), x, y)
+        matn_safe_siah(screen, question + ": " + ''.join(matn_halehazer), x, y)
         pygame.display.update()
     
-    return ''.join(current_string)
+    return ''.join(matn_halehazer)
 
 def menu_aval(screen):
     while True:
         screen.fill((50, 50, 50))
-        safe_siah(screen, "Press 1 to Play Game", 0, -30)
-        safe_siah(screen, "Press 2 for Leaderboard", 0, 30)
+        matn_safe_siah(screen, "Press 1 to Play Game", 0, -30)
+        matn_safe_siah(screen, "Press 2 for Leaderboard", 0, 30)
         pygame.display.update()
         
-        key = get_key()
+        key = gerftan_key_khoroj()
         if key == K_1:
             return "play"
         elif key == K_2:
             return "leaderboard"
 
+#agar player play ro zad
 def login_menu(screen):
     screen.fill((50, 50, 50))
-    safe_siah(screen, "Press 1 for Sign Up", 0, -30)
-    safe_siah(screen, "Press 2 for Login", 0, 30)
+    matn_safe_siah(screen, "Press 1 for Sign Up", 0 , -30)
+    matn_safe_siah(screen, "Press 2 for Login", 0 , 30)
     pygame.display.update()
     
     while True:
-        key = get_key()
+        key = gerftan_key_khoroj()
         if key == K_1:
             return "signup"
         elif key == K_2:
             return "login"
 
+#nahve vorod player
 def player_login(screen, player):
     while True:
         screen.fill((50, 50, 50))
-        safe_siah(screen, f"{player} Turn", 0, -90)
+        # matn_safe_siah(screen, f"{player} Turn" , 0 , 0)
         pygame.display.update()
-        
         choice = login_menu(screen)
         username = vorodiha(screen, "Username", 0, -30)
         password = vorodiha(screen, "Password", 0, 30)
         
         if choice == "signup":
             if hashpassword.add_user(username, password):
-                safe_siah(screen, f"{username} registered!", 0, 90)
+                matn_safe_siah(screen, f"{username} registered!", 0, 90)
                 pygame.display.update()
                 pygame.time.wait(2000)
                 return username
             else:
-                safe_siah(screen, f"{username} already exists!", 0, 90)
+                matn_safe_siah(screen, f"{username} already exists!", 0, 90)
                 pygame.display.update()
                 pygame.time.wait(2000)
         elif choice == "login":
             result = hashpassword.check_password(username, password)
             if result == "not_found":
-                safe_siah(screen, f"{username} not found!", 0, 90)
+                matn_safe_siah(screen, f"{username} not found!", 0, 90)
             elif result:
-                safe_siah(screen, f"{username} logged in!", 0, 90)
+                matn_safe_siah(screen, f"{username} logged in!", 0, 90)
                 pygame.display.update()
                 pygame.time.wait(2000)
                 return username
             else:
-                safe_siah(screen, "Wrong password!", 0, 90)
+                matn_safe_siah(screen, "Wrong password!", 0, 90)
             pygame.display.update()
             pygame.time.wait(2000)
 
 def main():
-    screen = pygame.display.set_mode((400, 300))
+    screen = pygame.display.set_mode((500, 500))
     choice = menu_aval(screen)
     
     if choice == "play":

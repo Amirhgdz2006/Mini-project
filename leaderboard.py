@@ -24,13 +24,7 @@ def display_leaderboard(leaderboard):
     khode_leaderboard.add_column("LOSSES", justify="right", style="red")
 
     for index, user in enumerate(leaderboard):
-        khode_leaderboard.add_row(
-            str(index + 1),
-            user['username'],
-            str(user.get('score', 0)),
-            str(user.get('wins', 0)),
-            str(user.get('losses', 0))
-        )
+        khode_leaderboard.add_row(str(index + 1),user['username'],str(user.get('score', 0)),str(user.get('wins', 0)),str(user.get('losses', 0)))
     
     console.print(onvan)
     console.print(khode_leaderboard)
